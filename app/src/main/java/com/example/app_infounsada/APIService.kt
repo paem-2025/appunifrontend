@@ -16,4 +16,16 @@ interface APIService {
 
     @GET("api/final-exams/year/{year}")
     suspend fun getFinalExamsByYear(@Path("year") year: Int): Response<List<FinalExamResponse>>
+
+    @GET("api/correlativities")
+    suspend fun getAllCorrelativities(): Response<List<CorrelativityResponse>>
+
+    @GET("api/correlativities/career/{careerKey}")
+    suspend fun getCorrelativitiesByCareer(@Path("careerKey") careerKey: String): Response<List<CorrelativityResponse>>
+
+    @GET("api/alerts/active")
+    suspend fun getActiveAlerts(): Response<List<AppAlertResponse>>
+
+    @GET("api/ingresante-faq")
+    suspend fun getIngresanteFaq(): Response<List<IngresanteFaqResponse>>
 }

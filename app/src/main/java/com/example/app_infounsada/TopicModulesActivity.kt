@@ -65,18 +65,36 @@ class TopicModulesActivity : AppCompatActivity(), SearchView.OnQueryTextListener
 
     private suspend fun fetchTopicContent(topicName: String): List<ModuleResponse>? {
         return try {
-            if (topicName.equals("Calendario Academico", ignoreCase = true)) {
-                val call = withContext(Dispatchers.IO) {
-                    apiService.getCurrentYearFinalExams()
+            when {
+                topicName.equals("Calendario Academico", ignoreCase = true) -> {
+                    val call = withContext(Dispatchers.IO) { apiService.getCurrentYearFinalExams() }
+                    if (!call.isSuccessful) return null
+                    call.body().orEmpty().map { exam -> ModuleContentHelper.mapFinalExamToModule(exam) }
                 }
-                if (!call.isSuccessful) return null
-                call.body().orEmpty().map { exam -> ModuleContentHelper.mapFinalExamToModule(exam) }
-            } else {
-                val call = withContext(Dispatchers.IO) {
-                    apiService.getModulesByTopicName(topicName)
+
+                topicName.equals("Correlatividades", ignoreCase = true) -> {
+                    val call = withContext(Dispatchers.IO) { apiService.getAllCorrelativities() }
+                    if (!call.isSuccessful) return null
+                    call.body().orEmpty().map { row -> ModuleContentHelper.mapCorrelativityToModule(row) }
                 }
-                if (!call.isSuccessful) return null
-                call.body().orEmpty()
+
+                topicName.equals("Alertas", ignoreCase = true) -> {
+                    val call = withContext(Dispatchers.IO) { apiService.getActiveAlerts() }
+                    if (!call.isSuccessful) return null
+                    call.body().orEmpty().map { row -> ModuleContentHelper.mapAlertToModule(row) }
+                }
+
+                topicName.equals("FAQ Ingresantes", ignoreCase = true) -> {
+                    val call = withContext(Dispatchers.IO) { apiService.getIngresanteFaq() }
+                    if (!call.isSuccessful) return null
+                    call.body().orEmpty().map { row -> ModuleContentHelper.mapFaqToModule(row) }
+                }
+
+                else -> {
+                    val call = withContext(Dispatchers.IO) { apiService.getModulesByTopicName(topicName) }
+                    if (!call.isSuccessful) return null
+                    call.body().orEmpty()
+                }
             }
         } catch (_: Exception) {
             null

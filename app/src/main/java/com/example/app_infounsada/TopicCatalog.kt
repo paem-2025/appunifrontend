@@ -8,7 +8,10 @@ object TopicCatalog {
         "Tutorias",
         "Ingresantes",
         "Tramites",
-        "Carreras"
+        "Carreras",
+        "Correlatividades",
+        "Alertas",
+        "FAQ Ingresantes"
     )
 
     fun detectTopic(question: String): String? {
@@ -21,23 +24,29 @@ object TopicCatalog {
             q.contains("plataforma") || q.contains("guarani") || q.contains("moodle") ||
                 q.contains("correo") || q.contains("nexos") ->
                 "Plataformas"
-            q.contains("tutoria") || q.contains("tutoria") || q.contains("tutoría") ->
+            q.contains("tutoria") || q.contains("tutoria") || q.contains("tutoria") ->
                 "Tutorias"
             q.contains("ingresante") || q.contains("nuevo") || q.contains("primer") ||
                 q.contains("inicio") || q.contains("empezar") ->
                 "Ingresantes"
-            q.contains("tramite") || q.contains("trámite") || q.contains("equivalencia") ||
-                q.contains("readmision") || q.contains("readmisión") || q.contains("simultaneidad") ||
+            q.contains("tramite") || q.contains("tramite") || q.contains("equivalencia") ||
+                q.contains("readmision") || q.contains("simultaneidad") ||
                 q.contains("cambio de carrera") ->
                 "Tramites"
             q.contains("carrera") || q.contains("carreras") ||
-                q.contains("oferta academica") || q.contains("oferta académica") ||
+                q.contains("oferta academica") ||
                 q.contains("licenciatura") || q.contains("tecnicatura") ||
-                q.contains("ingenieria") || q.contains("ingeniería") ||
-                q.contains("enfermeria") || q.contains("enfermería") ||
-                q.contains("informatica") || q.contains("informática") ||
-                q.contains("fonoaudiologia") || q.contains("fonoaudiología") ->
+                q.contains("ingenieria") ||
+                q.contains("enfermeria") ||
+                q.contains("informatica") ||
+                q.contains("fonoaudiologia") ->
                 "Carreras"
+            q.contains("correlativa") || q.contains("correlatividad") || q.contains("materia previa") ->
+                "Correlatividades"
+            q.contains("alerta") || q.contains("recordatorio") || q.contains("vencimiento") || q.contains("fecha limite") ->
+                "Alertas"
+            q.contains("faq") || q.contains("pregunta frecuente") || q.contains("no entiendo") || q.contains("verg") ->
+                "FAQ Ingresantes"
             else -> null
         }
     }

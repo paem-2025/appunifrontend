@@ -57,8 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         val detectedTopic = TopicCatalog.detectTopic(question)
         if (detectedTopic == null) {
-            binding.tvAssistantAnswer.text =
-                "Puedo llevarte a: Calendario, Becas, Plataformas, Tutorias, Ingresantes, Tramites y Carreras."
+            binding.tvAssistantAnswer.text = "Puedo llevarte a: ${TopicCatalog.topics.joinToString(", ")}."
             return
         }
 
