@@ -1,5 +1,8 @@
 package com.example.app_infounsada
 
+import java.text.Normalizer
+import java.util.Locale
+
 object TopicCatalog {
     val topics = listOf(
         "Calendario Academico",
@@ -15,7 +18,7 @@ object TopicCatalog {
     )
 
     fun detectTopic(question: String): String? {
-        val q = question.lowercase()
+        val q = normalize(question)
         return when {
             q.contains("mesa") || q.contains("final") || q.contains("examen") || q.contains("calendario") ->
                 "Calendario Academico"
@@ -24,12 +27,12 @@ object TopicCatalog {
             q.contains("plataforma") || q.contains("guarani") || q.contains("moodle") ||
                 q.contains("correo") || q.contains("nexos") ->
                 "Plataformas"
-            q.contains("tutoria") || q.contains("tutoria") || q.contains("tutoria") ->
+            q.contains("tutoria") || q.contains("acompanamiento") ->
                 "Tutorias"
             q.contains("ingresante") || q.contains("nuevo") || q.contains("primer") ||
                 q.contains("inicio") || q.contains("empezar") ->
                 "Ingresantes"
-            q.contains("tramite") || q.contains("tramite") || q.contains("equivalencia") ||
+            q.contains("tramite") || q.contains("equivalencia") ||
                 q.contains("readmision") || q.contains("simultaneidad") ||
                 q.contains("cambio de carrera") ->
                 "Tramites"
@@ -49,5 +52,11 @@ object TopicCatalog {
                 "FAQ Ingresantes"
             else -> null
         }
+    }
+
+    private fun normalize(input: String): String {
+        val noAccents = Normalizer.normalize(input, Normalizer.Form.NFD)
+            .replace("\\p{M}+".toRegex(), "")
+        return noAccents.lowercase(Locale.ROOT)
     }
 }
